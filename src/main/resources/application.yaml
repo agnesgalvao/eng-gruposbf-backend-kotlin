@@ -1,0 +1,17 @@
+spring:
+  data:
+    mongodb:
+      url: mongodb://localhost:27017/currency-converter
+      database: currency-converter
+
+external-urls:
+  awesome-api-url: https://economia.awesomeapi.com.br
+
+management:
+  endpoint:
+    logfile:
+      external_file: ./logs/spring-boot-logger.log
+  endpoints:
+    web:
+      exposure:
+        include: health,info,logfile
