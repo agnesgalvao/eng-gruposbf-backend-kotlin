@@ -38,7 +38,7 @@ class ErrorHandler {
     }
 
     data class ErrorResponse(
-            val status: HttpStatus,
-            val message: String
+        val status: HttpStatus,
+        val message: String
     )
 }

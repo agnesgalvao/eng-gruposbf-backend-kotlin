@@ -13,8 +13,8 @@ class UpdateCurrenciesQuotationScheduler(
 
     @Scheduled(cron = "0 0 6 * * *", zone = "America/Sao_Paulo")
     fun updateCurrenciesValuesTask() {
-        logger.info("starting update currencies quotations")
+        logger.info("starting update currencies quotations.")
         currenciesApplication.updateQuotations()
-        logger.info("finish update currencies quotations")
+        logger.info("finish update currencies quotations.")
     }
 }

@@ -34,6 +34,8 @@ class CurrenciesApplicationTest {
     private lateinit var currenciesApplication: CurrenciesApplication
 
     private val message = "error message"
+    private val unexpectedException = UnexpectedException(message)
+    private val clientException = ClientException(message)
 
     @Test
     fun `calls awesome api gateway and save currencies quotations`() {
@@ -98,11 +100,10 @@ class CurrenciesApplicationTest {
         verify(exactly = 1) { awesomeApiGateway.getLastValue(currencyEntity.name.code) }
         verify(exactly = 1) { currencyRepository.save(currencyEntity) }
     }
+
     @Test
     fun `does not throws when try update quotations and awesome api throws client exception`() {
-        val exception = ClientException("")
-
-        every { awesomeApiGateway.getLastValue(any()) } throws exception
+        every { awesomeApiGateway.getLastValue(any()) } throws clientException
         every { currencyRepository.findByNameAndCreatedAt(any(), any()) } returns null
 
         assertDoesNotThrow { currenciesApplication.updateQuotations() }
@@ -110,9 +111,7 @@ class CurrenciesApplicationTest {
 
     @Test
     fun `does not throws when try update quotations and awesome api throws unexpected exception`() {
-        val exception = UnexpectedException(message)
-
-        every { awesomeApiGateway.getLastValue(any()) } throws exception
+        every { awesomeApiGateway.getLastValue(any()) } throws unexpectedException
         every { currencyRepository.findByNameAndCreatedAt(any(), any()) } returns null
 
         assertDoesNotThrow { currenciesApplication.updateQuotations() }
@@ -120,9 +119,7 @@ class CurrenciesApplicationTest {
 
     @Test
     fun `throws when try update quotation and awesome api throws client exception`() {
-        val exception = ClientException(message)
-
-        every { awesomeApiGateway.getLastValue(any()) } throws exception
+        every { awesomeApiGateway.getLastValue(any()) } throws clientException
         every { currencyRepository.findByNameAndCreatedAt(any(), any()) } returns null
 
         assertThatThrownBy { currenciesApplication.updateQuotation(DOLLAR) }
@@ -131,9 +128,7 @@ class CurrenciesApplicationTest {
 
     @Test
     fun `throws when try update quotation and awesome api throws unexpected exception`() {
-        val exception = UnexpectedException(message)
-
-        every { awesomeApiGateway.getLastValue(any()) } throws exception
+        every { awesomeApiGateway.getLastValue(any()) } throws unexpectedException
         every { currencyRepository.findByNameAndCreatedAt(any(), any()) } returns null
 
         assertThatThrownBy { currenciesApplication.updateQuotation(DOLLAR) }

@@ -36,6 +36,7 @@ class CurrenciesApplication(
                 }
         }
     }
+
     fun updateQuotation(currencyName: CurrencyEntity.CurrencyName): Currency {
         currencyRepository
         return awesomeApiGateway.getLastValue(
